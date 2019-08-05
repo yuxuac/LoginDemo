@@ -10,7 +10,7 @@
 <body>
     <div id="userManagement">
         <h2>{{ title }}</h2>
-        <h3>欢迎你：{{ user }}</h3>
+        <h3>欢迎你：{{ currentUser.DisplayName }}</h3>
     </div>
     <script>
 
@@ -21,22 +21,14 @@
                     title: "用户管理",
                     message: "",
                     users: [],
-                    user: "",
-                    password: ""
+                    currentUser: {}
                 };
             },
             mounted: function () {
                 // Initialize
-                var u = get_cookie("username");
-                var p = get_cookie("password");
-
-                this.username = u;
-                this.password = p;
+                var userInCookies = get_cookie("username");
 
                 Vue.http.get('/users').then(response => {
-
-                    // 打印日志
-                    console.log(response.body);
 
                     if (response.body.includes("redirectToLogin")) {
                         // 权限验证失败, 跳转到登录页面
@@ -44,6 +36,10 @@
                     } else {
                         // 更新项目
                         this.users = response.body;
+                        this.currentUser = this.users.filter((u) =>
+                        {
+                            return u.UserName == userInCookies;
+                        })[0];
                     }
                 }, response => {
 
@@ -55,10 +51,6 @@
                 
             }
         });
-
-        function IsUserValid(user, password) {
-
-        }
     </script>
 </body>
 </html>

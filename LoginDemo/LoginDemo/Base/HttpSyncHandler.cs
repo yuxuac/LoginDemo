@@ -5,10 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.SessionState;
 
 namespace LoginDemo.Base
 {
-    public class HttpSyncHandler : IHttpHandler
+    public class HttpSyncHandler : IHttpHandler, IRequiresSessionState
     {
         public HttpSyncHandler()
         {

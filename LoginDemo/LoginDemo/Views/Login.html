@@ -30,11 +30,8 @@
             },
             mounted: function () {
                 // Initialize
-                var u = get_cookie("username");
-                var p = get_cookie("password");
-
-                this.username = u;
-                this.password = p;
+                this.username = get_cookie("username");
+                this.password = get_cookie("password");
             },
             methods: {
                 submit: function () {
