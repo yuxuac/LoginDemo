@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>登录</title>
+    <script src="/Scripts/vue.js"></script>
+    <script src="/Scripts/vue-resource.js"></script>
+    <script src="/Scripts/myUtil.js"></script>
+</head>
+<body>
+    <div id="login">
+        <h2>{{ title }}</h2>
+        <span>用户名</span><input type="text" v-model="username" /><br />
+        <span>密&nbsp;&nbsp;&nbsp;&nbsp;码</span><input type="password" v-model="password"/><br />
+        <input type="checkbox" id="keepInput" v-model="keepInput"/>
+        <label for="keepInput">保存用户名密码</label><br />
+        <input type="button" value="提交" @click="submit" />
+    </div>
+    <script>
+
+        var vm = new Vue({
+            el: "#login",
+            data: function () {
+                return {
+                    title: "登录",
+                    username: "",
+                    password: "",
+                    keepInput: false
+                };
+            },
+            mounted: function () {
+                // Initialize
+                var u = get_cookie("username");
+                var p = get_cookie("password");
+
+                this.username = u;
+                this.password = p;
+            },
+            methods: {
+                submit: function () {
+                    delete_cookie("username");
+                    delete_cookie("password");
+
+                    if (this.keepInput == true) {
+                        set_cookie("username", this.username, 1);
+                        set_cookie("password", this.password, 1);
+                    }
+
+                    var postObj = {
+                        UserName: this.username,
+                        Password: this.password
+                    };
+
+                    // Login
+                    Vue.http.post('/Login', postObj).then(response => {
+
+                        // 打印日志
+                        console.log(response.body);
+
+                        if (response.body == "1-valid") {
+                            // 重定向到
+                            window.location = "/Views/WorkPanel.html";
+                        } else {
+                            alert("Login failed.");
+                        }
+                    }, response => {
+
+                        // 打印错误信息
+                        console.error(response.statusText + ":" + response.body);
+                    });
+                },
+            }
+        });
+
+        // Before close window
+        //window.onbeforeunload = function (event) {
+        //    var message = 'Important: Please click on \'Save\' button to leave this page.';
+        //    if (typeof event == 'undefined') {
+        //        event = window.event;
+        //    }
+        //    if (event) {
+        //        event.returnValue = message;
+        //    }
+        //    return message;
+        //};
+
+    </script>
+</body>
+</html>
