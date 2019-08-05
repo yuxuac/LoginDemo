@@ -1,4 +1,5 @@
 ﻿using LoginDemo.Base;
+using LoginDemo.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,11 +24,11 @@ namespace LoginDemo.Base
             }
         }
 
-        public bool? IsValidLogin(User user)
+        public bool? IsValidLogin(User input)
         {
             bool flag = false;
-            if (Users.Any(u => u.UserName == user.UserName && 
-                               u.Password == user.Password))
+            if (Users.Any(u => u.UserName == input.UserName &&
+                               u.Password == input.Password))
             {
                 flag = true;
             }

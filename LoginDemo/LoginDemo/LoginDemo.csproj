@@ -93,7 +93,6 @@
     <Compile Include="Base\Logging.cs" />
     <Compile Include="Base\Utility.cs" />
     <Compile Include="HttpHandlers\Users.cs" />
-    <Compile Include="Model\User.cs" />
     <Compile Include="Base\LoginValidator.cs" />
     <Compile Include="HttpHandlers\Login.cs" />
     <Compile Include="Global.asax.cs">
@@ -109,6 +108,12 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LoginDemo.DataModel\LoginDemo.DataModel.csproj">
+      <Project>{24a920ce-e16a-40bc-a199-7cd66efae1ec}</Project>
+      <Name>LoginDemo.DataModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
