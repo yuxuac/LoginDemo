@@ -35,11 +35,12 @@
             },
             methods: {
                 submit: function () {
+                    this.username = this.username.trim();
                     delete_cookie("username");
                     delete_cookie("password");
+                    set_cookie("username", this.username, 1);
 
                     if (this.keepInput == true) {
-                        set_cookie("username", this.username, 1);
                         set_cookie("password", this.password, 1);
                     }
 

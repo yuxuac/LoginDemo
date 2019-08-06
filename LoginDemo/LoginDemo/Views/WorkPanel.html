@@ -10,7 +10,10 @@
 <body>
     <div id="userManagement">
         <h2>{{ title }}</h2>
-        <h3>欢迎你：{{ currentUser.DisplayName }}</h3>
+        <h3 style="display:inline">欢迎你：{{ currentUser.DisplayName }}</h3>&nbsp;&nbsp;&nbsp;&nbsp;<h4 style="display:inline"><a @click="logOff">退出</a></h4>
+        <ul>
+            <li v-for="u in users">{{ u.ID }} - {{ u.UserName }} - {{ u.DisplayName }} - {{ u.LoginTime }} - {{ u.LogoffTime }} - {{ u.UpdateTime }}</li>
+        </ul>
     </div>
     <script>
 
@@ -27,6 +30,9 @@
             mounted: function () {
                 // Initialize
                 var userInCookies = get_cookie("username");
+                if (!userInCookies) {
+                    window.location = "/Views/Login.html";
+                }
 
                 Vue.http.get('/users').then(response => {
 
@@ -48,7 +54,9 @@
                 });
             },
             methods: {
-                
+                logOff: function () {
+                    window.location = "/Views/Login.html";
+                }
             }
         });
     </script>
