@@ -14,7 +14,8 @@ namespace LoginDemo
             if (context.Session != null && 
                 context.Session["loginUser"] != null)
             {
-                var currentUser = (User)context.Session["loginUser"];
+                var userInSession = (User)context.Session["loginUser"];
+                var currentUser = LoginValidator.Users.Where(u => u.UserName == userInSession.UserName).FirstOrDefault();
                 var users = LoginValidator.Users;
                 IValidateLogin obj = new LoginValidator();
                 if (obj.IsValidLogin(currentUser) == true)
