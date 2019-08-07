@@ -11,6 +11,9 @@
     <div id="userManagement">
         <h2>{{ title }}</h2>
         <h3>欢迎你：{{ currentUser.DisplayName }}</h3>
+        <ul>
+            <li v-for="u in users">{{ u.ID }} {{ u.UserName }} {{ u.DisplayName }}</li>
+        </ul>
     </div>
     <script>
 
@@ -25,24 +28,16 @@
                 };
             },
             mounted: function () {
-                // Initialize
-                var userInCookies = get_cookie("username");
-
                 Vue.http.get('/users').then(response => {
-
-                    if (response.body.includes("redirectToLogin")) {
+                    if (typeof (response.body) == "string" && response.body.includes("redirectToLogin")) {
                         // 权限验证失败, 跳转到登录页面
                         window.location = "/Views/Login.html";
                     } else {
                         // 更新项目
-                        this.users = response.body;
-                        this.currentUser = this.users.filter((u) =>
-                        {
-                            return u.UserName == userInCookies;
-                        })[0];
+                        this.users = response.body.users;
+                        this.currentUser = response.body.currentUser;
                     }
                 }, response => {
-
                     // 打印错误信息
                     console.error(response.statusText + ":" + response.body);
                 });

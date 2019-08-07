@@ -16,9 +16,9 @@ namespace LoginDemo
             // 1. 注册路由
             RouteTable.Routes.Add(CustomRouteGenerator.GetRoute<Login>("login"));
             RouteTable.Routes.Add(CustomRouteGenerator.GetRoute<Users>("users"));
+            RouteTable.Routes.Add(CustomRouteGenerator.GetRoute<Captcha>("captcha"));
 
             Logging.Setup(log4net.Core.Level.All);
-            Logging.Write.Info("Hello world");
         }
 
         protected void Session_Start(object sender, EventArgs e)

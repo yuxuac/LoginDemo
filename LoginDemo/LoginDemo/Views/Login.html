@@ -11,9 +11,9 @@
     <div id="login">
         <h2>{{ title }}</h2>
         <span>用户名</span><input type="text" v-model="username" /><br />
-        <span>密&nbsp;&nbsp;&nbsp;&nbsp;码</span><input type="password" v-model="password"/><br />
-        <input type="checkbox" id="keepInput" v-model="keepInput"/>
-        <label for="keepInput">保存用户名密码</label><br />
+        <span>密&nbsp;&nbsp;&nbsp;码</span><input type="password" v-model="password"/><br />
+        <span>验证码</span><input type="text" v-model="captcha" /><img :src="captchaUrl" @click="recaptcha" /><br />
+        <input type="checkbox" id="keepInput" v-model="keepInput" /><label for="keepInput">保存用户名密码</label><br />
         <input type="button" value="提交" @click="submit" />
     </div>
     <script>
@@ -25,6 +25,8 @@
                     title: "登录",
                     username: "",
                     password: "",
+                    captcha: "",
+                    captchaUrl: "/Captcha",
                     keepInput: false
                 };
             },
@@ -37,15 +39,16 @@
                 submit: function () {
                     delete_cookie("username");
                     delete_cookie("password");
+                    set_cookie("username", this.username, 1);
 
                     if (this.keepInput == true) {
-                        set_cookie("username", this.username, 1);
                         set_cookie("password", this.password, 1);
                     }
 
                     var postObj = {
                         UserName: this.username,
-                        Password: this.password
+                        Password: this.password,
+                        Captcha: this.captcha
                     };
 
                     // Login
@@ -66,6 +69,9 @@
                         console.error(response.statusText + ":" + response.body);
                     });
                 },
+                recaptcha: function () {
+                    this.captchaUrl = "/Captcha" + "?" + new Date().getTime();
+                }
             }
         });
 

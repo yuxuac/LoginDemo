@@ -32,6 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -87,11 +88,15 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\CaptchaDrawer.cs" />
     <Compile Include="Base\HttpSyncHandler.cs" />
     <Compile Include="Base\CustomRouteGenerator.cs" />
+    <Compile Include="Base\IValidateCaptcha.cs" />
     <Compile Include="Base\IValidateLogin.cs" />
     <Compile Include="Base\Logging.cs" />
+    <Compile Include="Base\CaptchaValidator.cs" />
     <Compile Include="Base\Utility.cs" />
+    <Compile Include="HttpHandlers\Captcha.cs" />
     <Compile Include="HttpHandlers\Users.cs" />
     <Compile Include="Base\LoginValidator.cs" />
     <Compile Include="HttpHandlers\Login.cs" />

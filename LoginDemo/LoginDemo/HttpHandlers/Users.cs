@@ -14,12 +14,18 @@ namespace LoginDemo
             if (context.Session != null && 
                 context.Session["loginUser"] != null)
             {
-                var user = (User)context.Session["loginUser"];
-
+                var currentUser = (User)context.Session["loginUser"];
+                var users = LoginValidator.Users;
                 IValidateLogin obj = new LoginValidator();
-                if (obj.IsValidLogin(user) == true)
+                if (obj.IsValidLogin(currentUser) == true)
                 {
-                    OK(Response, Utility.Serialize(LoginValidator.Users));
+                    var respObj = new
+                    {
+                        currentUser,
+                        users
+                    };
+
+                    OK(Response, Utility.Serialize(respObj));
                 }
                 else
                 {

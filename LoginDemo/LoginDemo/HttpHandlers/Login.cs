@@ -11,10 +11,14 @@ namespace LoginDemo
     {
         protected override void Post(HttpContext context)
         {
-            var user = Utility.Deserialize<User>(GetReceivedContent(context));
-            IValidateLogin obj = new LoginValidator();
-            if (obj.IsValidLogin(user) == true)
+            var user = Utility.Deserialize<UserLogin>(GetReceivedContent(context));
+            IValidateLogin validateLogin = new LoginValidator();
+            IValidateCaptcha validateCaptcha = new CaptchaValidator();
+
+            if (validateLogin.IsValidLogin(user) == true &&
+                validateCaptcha.IsValid(user.Captcha, context) == true)
             {
+                context.Session.Remove("captcha");
                 context.Session.Add("loginUser", user);
                 OK(Response, "1-valid");
             }
@@ -22,7 +26,6 @@ namespace LoginDemo
             {
                 OK(Response, "0-invalid");
             }
-            
         }
     }
 }
