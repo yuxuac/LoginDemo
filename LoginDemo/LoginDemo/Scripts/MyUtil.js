@@ -2,11 +2,11 @@
     var expires = "";
     if (days) {
         var date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // 1day
-        //date.setTime(date.getTime() + (1 * 1 * 1 * 10 * 1000)); // 10s
+        //date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // 1day
+        date.setTime(date.getTime() + (1 * 1 * 1 * 10 * 1000)); // 10s
         expires = "; expires=" + date.toUTCString();
     }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    window.document.cookie = name + "=" + (value || "") + expires + "; path=/";
 }
 
 function get_cookie(name) {
@@ -20,6 +20,19 @@ function get_cookie(name) {
     return null;
 }
 
-function delete_cookie(name) {
-    document.cookie = name + '=; Max-Age=-99999999;';
+//function delete_cookie(name, sDomain, sPath) {
+//    //document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+//    document.cookie = encodeURIComponent(name) +
+//        "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" +
+//        (sDomain ? "; domain=" + sDomain : "") +
+//        (sPath ? "; path=" + sPath : "");
+//}
+
+function delete_cookie(cname) {
+    var d = new Date();
+    d.setTime(d.getTime() - (1000 * 60 * 60 * 24));
+    var expires = "expires=" + d.toGMTString();
+    window.document.cookie = cname + "=" + "; " + expires + "; path=/";
 }
+
+

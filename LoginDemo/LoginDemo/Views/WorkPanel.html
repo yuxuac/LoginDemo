@@ -10,9 +10,9 @@
 <body>
     <div id="userManagement">
         <h2>{{ title }}</h2>
-        <h3>欢迎你：{{ currentUser.DisplayName }}</h3>
+        <h3 style="display:inline">欢迎你：{{ currentUser.DisplayName }}</h3>&nbsp;&nbsp;&nbsp;&nbsp;<h4 style="display:inline"><a @click="logOff">退出</a></h4>
         <ul>
-            <li v-for="u in users">{{ u.ID }} {{ u.UserName }} {{ u.DisplayName }}</li>
+            <li v-for="u in users">{{ u.ID }} - {{ u.UserName }} - {{ u.DisplayName }} - {{ u.LoginTime }} - {{ u.LogoffTime }} - {{ u.UpdateTime }}</li>
         </ul>
     </div>
     <script>
@@ -28,6 +28,7 @@
                 };
             },
             mounted: function () {
+
                 Vue.http.get('/users').then(response => {
                     if (typeof (response.body) == "string" && response.body.includes("redirectToLogin")) {
                         // 权限验证失败, 跳转到登录页面
@@ -43,7 +44,9 @@
                 });
             },
             methods: {
-                
+                logOff: function () {
+                    window.location = "/Views/Login.html";
+                }
             }
         });
     </script>

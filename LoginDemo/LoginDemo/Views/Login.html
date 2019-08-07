@@ -37,6 +37,7 @@
             },
             methods: {
                 submit: function () {
+                    this.username = this.username.trim();
                     delete_cookie("username");
                     delete_cookie("password");
                     set_cookie("username", this.username, 1);
