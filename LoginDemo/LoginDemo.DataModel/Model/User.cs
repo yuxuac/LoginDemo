@@ -14,5 +14,6 @@ namespace LoginDemo.DataModel
         public DateTime? LoginTime { get; set; }
         public DateTime? LogoffTime { get; set; }
         public DateTime? UpdateTime { get; set; }
+        public string ImgUrl { get; set; }
     }
 }

@@ -9,6 +9,5 @@ namespace LoginDemo.Base
     {
         public static string Captcha = "captcha";
         public static string LoginUser = "loginUser";
-
     }
 }

@@ -6,15 +6,40 @@
     <script src="/Scripts/vue.js"></script>
     <script src="/Scripts/vue-resource.js"></script>
     <script src="/Scripts/myUtil.js"></script>
-    <script src="/Scripts/locale-en.js"></script>
+    <script src="/Scripts/locale-cn.js"></script>
 </head>
 <body>
     <div id="userManagement">
         <h2>{{ displayText._title }}</h2>
-        <h3 style="display:inline">{{displayText._greeting}}{{ currentUser.DisplayName }}</h3>&nbsp;&nbsp;&nbsp;&nbsp;<h4 style="display:inline"><a @click="logOff">{{ displayText._exit }}</a></h4>
-        <ul>
-            <li v-for="u in users">{{ u.ID }} - {{ u.UserName }} - {{ u.DisplayName }} - {{ u.LoginTime }} - {{ u.LogoffTime }} - {{ u.UpdateTime }}</li>
-        </ul>
+        <h3 style="display:inline">{{displayText._greeting}} <img :src="currentUser.ImgUrl" height="45" width="45" />{{ currentUser.DisplayName }}</h3>&nbsp;&nbsp;&nbsp;&nbsp;<h4 style="display:inline"><a @click="logOff">{{ displayText._exit }}</a></h4>
+        <br />
+        <br />
+        <table>
+            <thead>
+                <tr>
+                    <th>{{ displayText._thead_ID }}</th>
+                    <th>{{ displayText._thead_userName }}</th>
+                    <th>{{ displayText._thead_userDisplayName }}</th>
+                    <th>{{ displayText._thead_imgUrl }}</th>
+                    <th>{{ displayText._thead_loginTime }}</th>
+                    <th>{{ displayText._thead_logoffTime }}</th>
+                    <th>{{ displayText._thead_updateTime }}</th>
+                    <th>{{ displayText._thead_action }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="u in users">
+                    <td>{{ u.ID }}</td>
+                    <td>{{ u.UserName }}</td>
+                    <td>{{ u.DisplayName }}</td>
+                    <td><img :src="u.ImgUrl" height="45" width="45" /></td>
+                    <td>{{ u.LoginTime }}</td>
+                    <td>{{ u.LogoffTime }}</td>
+                    <td>{{ u.UpdateTime }}</td>
+                    <td>{{ displayText._update }}/{{ displayText._delete }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     <script>
 

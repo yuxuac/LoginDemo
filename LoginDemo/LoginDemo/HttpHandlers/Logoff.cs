@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using LoginDemo.DataModel.Model;
+using LoginDemo.DataAccess;
 
 namespace LoginDemo
 {
@@ -15,8 +16,13 @@ namespace LoginDemo
             if (context.Session != null &&
                 context.Session[SessionKeys.LoginUser] != null)
             {
-                var currentUser = LoginValidator.Users.Where(u => u.UserName == ((User)context.Session["loginUser"]).UserName).FirstOrDefault();
+                var userName = ((User)context.Session[SessionKeys.LoginUser]).UserName;
+                var currentUser = LoginValidator.Users.Where(u => u.UserName == userName).FirstOrDefault();
+
+                // 更新LogoffTime
                 currentUser.LogoffTime = DateTime.Now;
+                DB.UpdateUser(currentUser);
+
                 context.Session.Remove(SessionKeys.LoginUser);
                 OK(Response, new JsonResponse() { code = RespCode.redirect, message = "redirect", respObj = "/views/login.html" });
             }
