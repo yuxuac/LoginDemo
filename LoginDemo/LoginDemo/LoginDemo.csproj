@@ -76,6 +76,8 @@
   <ItemGroup>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\locale-en.js" />
+    <Content Include="Scripts\locale-cn.js" />
     <Content Include="Scripts\myUtil.js" />
     <Content Include="Views\WorkPanel.html" />
     <Content Include="Views\Login.html" />
@@ -89,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\CaptchaDrawer.cs" />
+    <Compile Include="Base\SessionKeys.cs" />
     <Compile Include="Base\HttpSyncHandler.cs" />
     <Compile Include="Base\CustomRouteGenerator.cs" />
     <Compile Include="Base\IValidateCaptcha.cs" />
@@ -97,6 +100,7 @@
     <Compile Include="Base\CaptchaValidator.cs" />
     <Compile Include="Base\Utility.cs" />
     <Compile Include="HttpHandlers\Captcha.cs" />
+    <Compile Include="HttpHandlers\Logoff.cs" />
     <Compile Include="HttpHandlers\Users.cs" />
     <Compile Include="Base\LoginValidator.cs" />
     <Compile Include="HttpHandlers\Login.cs" />

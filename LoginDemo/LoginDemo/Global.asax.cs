@@ -17,6 +17,7 @@ namespace LoginDemo
             RouteTable.Routes.Add(CustomRouteGenerator.GetRoute<Login>("login"));
             RouteTable.Routes.Add(CustomRouteGenerator.GetRoute<Users>("users"));
             RouteTable.Routes.Add(CustomRouteGenerator.GetRoute<Captcha>("captcha"));
+            RouteTable.Routes.Add(CustomRouteGenerator.GetRoute<Logoff>("logoff"));
 
             Logging.Setup(log4net.Core.Level.All);
         }

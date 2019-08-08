@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LoginDemo.DataModel.Model;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -60,7 +61,7 @@ namespace LoginDemo.Base
             catch (Exception ex)
             {
                 Logging.Write.Error(ex.Message + ex.StackTrace);
-                BadRequest(this.Response, "-1-error");
+                BadRequest(this.Response, new JsonResponse() { code = RespCode.exception, message = "error" });
             }
         }
 
@@ -129,10 +130,10 @@ namespace LoginDemo.Base
         /// </summary>
         /// <param name="response"></param>
         /// <param name="msg"></param>
-        protected virtual void OK(HttpResponse response, string msg)
+        protected virtual void OK(HttpResponse response, JsonResponse resp)
         {
             response.StatusCode = (int)HttpStatusCode.OK;
-            response.Write(msg);
+            response.Write(Utility.Serialize(resp));
         }
 
         /// <summary>
@@ -140,10 +141,10 @@ namespace LoginDemo.Base
         /// </summary>
         /// <param name="response"></param>
         /// <param name="msg"></param>
-        protected virtual void BadRequest(HttpResponse response, string msg)
+        protected virtual void BadRequest(HttpResponse response, JsonResponse resp)
         {
             response.StatusCode = (int)HttpStatusCode.BadRequest;
-            response.Write(msg);
+            response.Write(Utility.Serialize(resp));
         }
 
         /// <summary>
@@ -151,10 +152,10 @@ namespace LoginDemo.Base
         /// </summary>
         /// <param name="response"></param>
         /// <param name="msg"></param>
-        protected virtual void InternalServerError(HttpResponse response, string msg)
+        protected virtual void InternalServerError(HttpResponse response, JsonResponse resp)
         {
             response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            response.Write(msg);
+            response.Write(Utility.Serialize(resp));
         }
 
         /// <summary>

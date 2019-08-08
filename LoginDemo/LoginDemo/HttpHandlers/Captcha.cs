@@ -36,8 +36,8 @@ namespace LoginDemo
             }*/
 
             var captcha = CaptchaDrawer.GenerateCaptchaImage(120, 30);
-            context.Session.Remove("captcha");
-            context.Session.Add("captcha", captcha.CaptchaCode);
+            context.Session.Remove(SessionKeys.Captcha);
+            context.Session.Add(SessionKeys.Captcha, captcha.CaptchaCode);
             OK(Response, captcha.CaptchaByteData);
         }
 

@@ -1,5 +1,6 @@
 ﻿using LoginDemo.Base;
 using LoginDemo.DataModel;
+using LoginDemo.DataModel.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +19,15 @@ namespace LoginDemo
             if (validateLogin.IsValidLogin(user) == true &&
                 validateCaptcha.IsValid(user.Captcha, context) == true)
             {
-                context.Session.Remove("captcha");
-                context.Session.Add("loginUser", user);
-                OK(Response, "1-valid");
+                var currentUser = LoginValidator.Users.Where(u => u.UserName == user.UserName).FirstOrDefault();
+                currentUser.LoginTime = DateTime.Now;
+                context.Session.Remove(SessionKeys.Captcha);
+                context.Session.Add(SessionKeys.LoginUser, user);
+                OK(Response, new JsonResponse() { code = RespCode.redirect, message = "ok", respObj = "/views/workpanel.html" });
             }
             else
             {
-                OK(Response, "0-invalid");
+                OK(Response, new JsonResponse() { code = RespCode.notok, message = "failed" });
             }
         }
     }

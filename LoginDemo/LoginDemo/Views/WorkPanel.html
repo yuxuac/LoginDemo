@@ -6,11 +6,12 @@
     <script src="/Scripts/vue.js"></script>
     <script src="/Scripts/vue-resource.js"></script>
     <script src="/Scripts/myUtil.js"></script>
+    <script src="/Scripts/locale-en.js"></script>
 </head>
 <body>
     <div id="userManagement">
-        <h2>{{ title }}</h2>
-        <h3 style="display:inline">欢迎你：{{ currentUser.DisplayName }}</h3>&nbsp;&nbsp;&nbsp;&nbsp;<h4 style="display:inline"><a @click="logOff">退出</a></h4>
+        <h2>{{ displayText._title }}</h2>
+        <h3 style="display:inline">{{displayText._greeting}}{{ currentUser.DisplayName }}</h3>&nbsp;&nbsp;&nbsp;&nbsp;<h4 style="display:inline"><a @click="logOff">{{ displayText._exit }}</a></h4>
         <ul>
             <li v-for="u in users">{{ u.ID }} - {{ u.UserName }} - {{ u.DisplayName }} - {{ u.LoginTime }} - {{ u.LogoffTime }} - {{ u.UpdateTime }}</li>
         </ul>
@@ -21,6 +22,7 @@
             el: "#userManagement",
             data: function () {
                 return {
+                    displayText: displayText_userManagement, 
                     title: "用户管理",
                     message: "",
                     users: [],
@@ -30,22 +32,36 @@
             mounted: function () {
 
                 Vue.http.get('/users').then(response => {
-                    if (typeof (response.body) == "string" && response.body.includes("redirectToLogin")) {
-                        // 权限验证失败, 跳转到登录页面
+                    if (response.body.code == 1) {
+                        this.users = response.body.respObj.users;
+                        this.currentUser = response.body.respObj.currentUser;
+                    }
+                    else {
+                        console.log(response.body.message);
                         window.location = "/Views/Login.html";
-                    } else {
-                        // 更新项目
-                        this.users = response.body.users;
-                        this.currentUser = response.body.currentUser;
                     }
                 }, response => {
                     // 打印错误信息
                     console.error(response.statusText + ":" + response.body);
                 });
             },
+            created: function () {
+                document.title = this.displayText._title;
+            },
             methods: {
                 logOff: function () {
-                    window.location = "/Views/Login.html";
+
+                    var postObj = {
+                        UserName: get_cookie("username"),
+                    };
+
+                    // Login
+                    Vue.http.post('/logoff', postObj).then(response => {
+                        handleResponse(response);
+                    }, response => {
+                        // 打印错误信息
+                        console.error(response.statusText + ":" + response.body);
+                    });
                 }
             }
         });

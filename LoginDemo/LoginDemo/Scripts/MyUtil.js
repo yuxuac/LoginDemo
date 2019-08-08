@@ -35,4 +35,19 @@ function delete_cookie(cname) {
     window.document.cookie = cname + "=" + "; " + expires + "; path=/";
 }
 
+// 处理Response
+function handleResponse(resp) {
+    if (resp.body.code === -1) {
+        console.error("exception:" + resp.body.message);
+    } else if (resp.body.code === 0) {
+        console.log("notok:" + resp.body.message);
+        alert("notok:" + resp.body.message);
+    } else if (resp.body.code === 1) {
+        console.log("ok:" + resp.body.message);
+    } else if (resp.body.code === 2) {
+        console.log("redirect:" + resp.body.message);
+        window.location = resp.body.respObj;
+    }
+}
+
 

@@ -1,5 +1,6 @@
 ﻿using LoginDemo.Base;
 using LoginDemo.DataModel;
+using LoginDemo.DataModel.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,9 @@ namespace LoginDemo
         protected override void Get(HttpContext context)
         {
             if (context.Session != null && 
-                context.Session["loginUser"] != null)
+                context.Session[SessionKeys.LoginUser] != null)
             {
-                var userInSession = (User)context.Session["loginUser"];
+                var userInSession = (User)context.Session[SessionKeys.LoginUser];
                 var currentUser = LoginValidator.Users.Where(u => u.UserName == userInSession.UserName).FirstOrDefault();
                 var users = LoginValidator.Users;
                 IValidateLogin obj = new LoginValidator();
@@ -26,16 +27,16 @@ namespace LoginDemo
                         users
                     };
 
-                    OK(Response, Utility.Serialize(respObj));
+                    OK(Response, new DataModel.Model.JsonResponse() { respObj = respObj, code = RespCode.ok, message = "ok"});
                 }
                 else
                 {
-                    OK(Response, "0-invalid");
+                    OK(Response, new DataModel.Model.JsonResponse() { code = RespCode.notok, message = "invalid" });
                 }
             }
             else
             {
-                OK(Response, "-2-redirectToLogin");
+                OK(Response, new DataModel.Model.JsonResponse() { code = RespCode.notok, message = "redirectToLogin" });
             } 
         }
     }

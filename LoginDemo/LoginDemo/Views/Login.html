@@ -6,44 +6,50 @@
     <script src="/Scripts/vue.js"></script>
     <script src="/Scripts/vue-resource.js"></script>
     <script src="/Scripts/myUtil.js"></script>
+    <script src="/Scripts/locale-en.js"></script>
 </head>
 <body>
     <div id="login">
-        <h2>{{ title }}</h2>
-        <span>用户名</span><input type="text" v-model="username" /><br />
-        <span>密&nbsp;&nbsp;&nbsp;码</span><input type="password" v-model="password"/><br />
-        <span>验证码</span><input type="text" v-model="captcha" /><img :src="captchaUrl" @click="recaptcha" /><br />
-        <input type="checkbox" id="keepInput" v-model="keepInput" /><label for="keepInput">保存用户名密码</label><br />
-        <input type="button" value="提交" @click="submit" />
+        <h2>{{ displayText._title }}</h2>
+        <span>{{ displayText._userName }}</span><input type="text" v-model="username" /><br />
+        <span>{{ displayText._password }}</span><input type="password" v-model="password"/><br />
+        <span>{{ displayText._captcha }}</span><input type="text" v-model="captcha" /><img :src="captchaUrl" @click="recaptcha" /><br />
+        <input type="checkbox" id="keepInput" v-model="keepInput" /><label for="keepInput">{{ displayText._keepInput }}</label><br />
+        <input type="button" :value="displayText._submit" @click="submit" />
     </div>
     <script>
-
+        //var doc = document;
         var vm = new Vue({
             el: "#login",
             data: function () {
                 return {
-                    title: "登录",
+                    displayText: displayText_login, 
                     username: "",
                     password: "",
                     captcha: "",
-                    captchaUrl: "/Captcha",
-                    keepInput: false
+                    captchaUrl: "/captcha",
+                    keepInput: false,
                 };
             },
             mounted: function () {
                 // Initialize
                 this.username = get_cookie("username");
-                this.password = get_cookie("password");
+                this.password = get_cookie("password"); 
+            },
+            ready: function () {
+                
+            },
+            created: function () {
+                document.title = this.displayText._title;
             },
             methods: {
+                
                 submit: function () {
                     this.username = this.username.trim();
-                    delete_cookie("username");
-                    delete_cookie("password");
-                    set_cookie("username", this.username, 1);
 
                     if (this.keepInput == true) {
                         set_cookie("password", this.password, 1);
+                        set_cookie("username", this.username, 1);
                     }
 
                     var postObj = {
@@ -53,25 +59,14 @@
                     };
 
                     // Login
-                    Vue.http.post('/Login', postObj).then(response => {
-
-                        // 打印日志
-                        console.log(response.body);
-
-                        if (response.body == "1-valid") {
-                            // 重定向到
-                            window.location = "/Views/WorkPanel.html";
-                        } else {
-                            alert("Login failed.");
-                        }
+                    Vue.http.post('/login', postObj).then(response => {
+                        handleResponse(response);
                     }, response => {
-
-                        // 打印错误信息
                         console.error(response.statusText + ":" + response.body);
                     });
                 },
                 recaptcha: function () {
-                    this.captchaUrl = "/Captcha" + "?" + new Date().getTime();
+                    this.captchaUrl = "/captcha" + "?" + new Date().getTime();
                 }
             }
         });
