@@ -81,7 +81,7 @@
     <Content Include="Img\nezha.jpg" />
     <Content Include="Img\shengongbao.jpg" />
     <Content Include="Img\taiyizhenren.jpg" />
-    <Content Include="Img\yuanshitianzun.png" />
+    <Content Include="Img\yuanshitianzun.jpg" />
     <Content Include="Scripts\locale-en.js" />
     <Content Include="Scripts\locale-cn.js" />
     <Content Include="Scripts\myUtil.js" />

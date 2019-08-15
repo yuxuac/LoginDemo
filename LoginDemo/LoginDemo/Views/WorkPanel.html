@@ -6,7 +6,7 @@
     <script src="/Scripts/vue.js"></script>
     <script src="/Scripts/vue-resource.js"></script>
     <script src="/Scripts/myUtil.js"></script>
-    <script src="/Scripts/locale-cn.js"></script>
+    <script src="/Scripts/locale-en.js"></script>
 </head>
 <body>
     <div id="userManagement">
@@ -90,6 +90,34 @@
                 }
             }
         });
+
+        //window.onbeforeunload = function (event) {
+        //    var message = 'Important: Please click on \'Save\' button to leave this page.';
+        //    if (typeof event == 'undefined') {
+        //        event = window.event;
+        //    }
+        //    if (event) {
+        //        event.returnValue = message;
+        //    }
+        //    return message;
+        //};
+
+        //Before close window
+        //window.onbeforeunload = function (event) {
+        //    var message = 'Log off success.';
+        //    var postObj = {
+        //        UserName: get_cookie("username"),
+        //    };
+
+        //    // Login
+        //    Vue.http.post('/logoff', postObj).then(response => {
+        //        handleResponse(response);
+        //    }, response => {
+        //        // 打印错误信息
+        //        console.error(response.statusText + ":" + response.body);
+        //    });
+        //    return message;
+        //};
     </script>
 </body>
 </html>
